@@ -1,9 +1,22 @@
 #!/usr/bin/lua
 
+if 0 == os.execute("test -e .fm") then
+	dofile(".fm");
+end;
+
+function ProperNounize(str)
+	assert(type(str)=="string", "str must be a string");
+	local first=str:sub(1,1):upper();
+	return first..str:sub(2);
+end;
+
 local commands;
 commands = setmetatable({
-	[{"test", "t"}]=function(...)
-		dofile("FritoMod/runtests.lua");
+	init=function(project)
+		if not project then
+			return print("Usage: fm init <project>");
+		end;
+		return os.execute("fm-init.sh "..ProperNounize(project));
 	end,
 	[{"help","h", "?"}]=function()
 		local cmds={};
@@ -23,13 +36,11 @@ commands = setmetatable({
 		end;
 		print(("Usage: [%s] <options>"):format(l));
 	end,
-	[{"new","n","create"}]=function(name)
+	[{"new","n","create","c"}]=function(name)
 		if not name then
-			return print("Usage: fm init <name>");
+			return print("Usage: fm new <name>");
 		end;
-		local first=name:sub(1,1):upper();
-		local name=first..name:sub(2);
-		os.execute("bash ./FritoMod/init.sh " .. name);
+		os.execute("fm-new.sh " .. ProperNounize(name));
 	end
 }, {
 	__index=function(self, key)
@@ -42,10 +53,9 @@ commands = setmetatable({
 				end;
 			end;
 		end;
-		if key then
-			print("Unknown command: " .. tostring(key));
+		return function()
+			os.execute("fm-bin.sh " .. key)
 		end;
-		return self.help;
 	end
 });
 

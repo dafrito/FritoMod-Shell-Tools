@@ -1,16 +1,13 @@
 #!/bin/bash
 
-INTERFACE=30300
-PROJECT=""
-AUTHOR=$USER
-VERSION="Unreleased"
-
-if [ -e .settings ]; then
-	. .settings
-fi
+source fm-load-settings.sh >/dev/null
 
 NAME=$1
-COMPONENT=$PROJECT_$NAME
+if [ $PROJECT ]; then
+	COMPONENT=$PROJECT"_"$NAME
+else
+	COMPONENT=$NAME
+fi;
 
 function make_toc {
 	echo "# Interface: $INTERFACE"
@@ -19,11 +16,11 @@ function make_toc {
 	echo "# Version: $VERSION"
 }
 mkdir -p $COMPONENT
-pushd $COMPONENT
+pushd $COMPONENT >/dev/null
 make_toc > $COMPONENT.toc
-popd 
+popd >/dev/null
 
 mkdir -p "$COMPONENT"_Tests
-pushd "$COMPONENT"_Tests
+pushd "$COMPONENT"_Tests >/dev/null
 make_toc > $COMPONENT.toc
-popd
+popd >/dev/null
