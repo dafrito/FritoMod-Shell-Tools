@@ -10,11 +10,17 @@ else
 fi;
 
 function build_dir {
-	mkdir -p $1
-	pushd $1 >/dev/null
-	fm-toc.sh > $1.toc
+	aux=$2
+	if [ $aux ]; then
+		path=$1_$aux
+	else
+		path=$1
+	fi
+	mkdir -p $path
+	pushd $path >/dev/null
+	. fm-toc.sh $NAME $aux >$path.toc
 	popd >/dev/null
 }
 
-build_dir $COMPONENT
-build_dir "$COMPONENT"_Tests
+build_dir $COMPONENT 
+build_dir "$COMPONENT" Tests
