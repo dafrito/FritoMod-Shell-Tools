@@ -9,18 +9,12 @@ else
 	COMPONENT=$NAME
 fi;
 
-function make_toc {
-	echo "# Interface: $INTERFACE"
-	echo "# Title: $PROJECT - $NAME"
-	echo "# Author: $AUTHOR"
-	echo "# Version: $VERSION"
+function build_dir {
+	mkdir -p $1
+	pushd $1 >/dev/null
+	fm-toc.sh > $1.toc
+	popd >/dev/null
 }
-mkdir -p $COMPONENT
-pushd $COMPONENT >/dev/null
-make_toc > $COMPONENT.toc
-popd >/dev/null
 
-mkdir -p "$COMPONENT"_Tests
-pushd "$COMPONENT"_Tests >/dev/null
-make_toc > $COMPONENT.toc
-popd >/dev/null
+build_dir $COMPONENT
+build_dir "$COMPONENT"_Tests
