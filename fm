@@ -1,0 +1,54 @@
+#!/usr/bin/lua
+
+local commands;
+commands = setmetatable({
+	[{"test", "t"}]=function(...)
+		dofile("FritoMod/runtests.lua");
+	end,
+	[{"help","h", "?"}]=function()
+		local cmds={};
+		for k,v in pairs(commands) do
+			if type(k) == "table" then
+				table.insert(cmds, k[1]);
+			else
+				table.insert(cmds, k[1]);
+			end;
+		end;
+		local l="";
+		for i=1,#cmds do
+			l=l..cmds[i];
+			if i<#cmds then
+				l=l.."|";
+			end;
+		end;
+		print(("Usage: [%s] <options>"):format(l));
+	end,
+	[{"new","n","create"}]=function(name)
+		if not name then
+			return print("Usage: fm init <name>");
+		end;
+		local first=name:sub(1,1):upper();
+		local name=first..name:sub(2);
+		os.execute("bash ./FritoMod/init.sh " .. name);
+	end
+}, {
+	__index=function(self, key)
+		for k,v in pairs(self) do
+			if type(k) == "table" then
+				for i=1,#k do
+					if k[i]==key then
+						return self[k];
+					end;
+				end;
+			end;
+		end;
+		if key then
+			print("Unknown command: " .. tostring(key));
+		end;
+		return self.help;
+	end
+});
+
+local c=table.remove(arg,1);
+
+return commands[c](unpack(arg));
