@@ -1,5 +1,5 @@
-if [ -e .fm ]; then
-	SETTINGS=.fm
+if [ -e .current-project ]; then
+	SETTINGS=.current-project
 	source $SETTINGS
 fi
 
