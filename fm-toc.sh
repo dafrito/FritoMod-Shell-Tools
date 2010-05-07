@@ -1,3 +1,4 @@
+source fm-library.sh >/dev/null
 source fm-load-settings.sh >/dev/null
 
 make_path $1 $2
