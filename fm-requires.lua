@@ -76,8 +76,33 @@ local function strjoin(join, ...)
 	return s;
 end;
 
+local function contains(t, v)
+	for i=1, #t do
+		if t[i]==v then
+			return true;
+		end;
+	end;
+	return false;
+end;
+
 print("## Dependencies: ".. strjoin(", ", unpack(keys(externalDependencies))));
+
+local ordered={};
+function Insert(file)
+	for i=1,#ordered do
+		if contains(dependencies[ordered[i]], file) then
+			table.insert(ordered, i, file);
+			return;
+		end;
+	end;
+	table.insert(ordered, file);
+end;
+
 for k,v in pairs(dependencies) do
-	local _,name=assert(k:match("^(.*)[/\\](.*)$"));
+	Insert(k);
+end;
+
+for i=1, #ordered do
+	local _,name=assert(ordered[i]:match("^(.*)[/\\](.*)$"));
 	print(name);
 end;
