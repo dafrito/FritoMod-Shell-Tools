@@ -1,6 +1,7 @@
 #!/usr/bin/lua
 
 local dir=table.remove(arg,1);
+local project=dir:sub(1, dir:find("_")-1);
 local env;
 local dependencies={};
 local externalDependencies={};
@@ -85,7 +86,7 @@ local function contains(t, v)
 	return false;
 end;
 
-print("## Dependencies: ".. strjoin(", ", unpack(keys(externalDependencies))));
+print("## Dependencies: "..strjoin(", ", project, unpack(keys(externalDependencies))));
 
 local ordered={};
 function Insert(file)
