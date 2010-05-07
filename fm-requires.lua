@@ -34,6 +34,9 @@ function watching_require(f)
 	if not f:find("%.lua$") then
 		f=f..".lua";
 	end;
+	if CURRENT_ARG==f then
+		return;
+	end;
 	local required_dir=f:match("^(.*)[/\\]");
 	if required_dir ~= dir then
 		if required_dir ~= "wowbench" then
