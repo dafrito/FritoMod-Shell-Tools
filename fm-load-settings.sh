@@ -1,6 +1,5 @@
 if [ -e .current-project ]; then
-	SETTINGS=.current-project
-	source $SETTINGS
+	PROJECT=`cat .current-project`
 fi
 
 INTERFACE=${INTERFACE='30300'}
