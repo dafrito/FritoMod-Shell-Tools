@@ -16,4 +16,8 @@ echo "## Title: $title"
 echo "## Author: $AUTHOR"
 echo "## Version: $VERSION"
 
+if [ -e $path/notes ]; then
+	egrep "^##" $path/notes
+fi;
+
 find $path -name "*.lua" | xargs fm-requires.lua $path
