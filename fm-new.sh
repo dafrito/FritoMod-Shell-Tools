@@ -17,9 +17,7 @@ function build_dir {
 		path=$1
 	fi
 	mkdir -p $path
-	pushd $path >/dev/null
-	. fm-toc.sh $NAME $aux >$path.toc
-	popd >/dev/null
+	source fm-toc.sh $NAME $aux >$path/$path.toc
 }
 
 build_dir $COMPONENT 
