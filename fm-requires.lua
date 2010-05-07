@@ -1,7 +1,12 @@
 #!/usr/bin/lua
 
 local dir=table.remove(arg,1);
-local project=dir:sub(1, dir:find("_")-1);
+local project;
+if dir:find("_") then
+	project=dir:sub(1, dir:find("_")-1);
+else
+	project=dir;
+end;
 local env;
 local dependencies={};
 local externalDependencies={};
@@ -27,7 +32,7 @@ function watching_require(f)
 		f=f..".lua";
 	end;
 	local required_dir=f:match("^(.*)[/\\]");
-	if required_dir ~= dir then
+	if required_dir ~= dir and required_dir ~= "wowbench" then
 		externalDependencies[required_dir]=true;
 		orig_require(f);
 		return;
@@ -47,8 +52,20 @@ function watching_require(f)
 end;
 require=watching_require;
 
-for i=1, #arg do
-	CURRENT_ARG=arg[i];
+local global=loadfile(project.."/global.lua");
+
+local excludes={};
+local exf=io.open(project.."/excludes");
+if exf then
+	for f in exf:lines() do
+		excludes[project.."/"..f]=true;
+	end
+end
+
+local function parse(f)
+	if excludes[f] then
+		return;
+	end;
 	env=setmetatable({
 		_context={},
 		require=watching_require,
@@ -57,10 +74,18 @@ for i=1, #arg do
 		end
 	},{ __index=_G});
 	current={};
-	dependencies[arg[i]]=current;
-	local f=assert(loadfile(arg[i]));
+	dependencies[f]=current;
+	local f=assert(loadfile(f));
 	setfenv(f, env);
+	if global then 
+		global();
+	end;
 	f()
+end;
+
+for i=1, #arg do
+	CURRENT_ARG=arg[i];
+	parse(arg[i]);
 end;
 
 local function keys(t)
