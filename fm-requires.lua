@@ -121,7 +121,6 @@ print("## Dependencies: "..strjoin(", ", unpack(keys(externalDependencies))));
 
 -- candidate is the possible dependency
 function IsDependentOn(root, candidate)
-	print(root,candidate);
 	if contains(dependencies[root], candidate) then
 		return true;
 	end;
@@ -137,12 +136,10 @@ local ordered={};
 function Insert(file)
 	for i=1,#ordered do
 		if IsDependentOn(ordered[i], file) then
-			print("inserting "..file.." before: " ..ordered[i]);
 			table.insert(ordered, i, file);
 			return;
 		end;
 	end;
-	print("inserting "..file.." at end");
 	table.insert(ordered, file);
 end;
 
