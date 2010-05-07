@@ -1,24 +1,15 @@
 #!/bin/bash
 
+source fm-library.sh
 source fm-load-settings.sh >/dev/null
 
-NAME=$1
-if [ $PROJECT ]; then
-	COMPONENT=$PROJECT"_"$NAME
-else
-	COMPONENT=$NAME
-fi;
+name=$1
 
 function build_dir {
-	aux=$2
-	if [ $aux ]; then
-		path=$1_$aux
-	else
-		path=$1
-	fi
+	make_path $1 $2
 	mkdir -p $path
-	source fm-toc.sh $NAME $aux >$path/$path.toc
+	save_toc $1 $2
 }
 
-build_dir $COMPONENT 
-build_dir "$COMPONENT" Tests
+build_dir $name
+build_dir $name Tests
