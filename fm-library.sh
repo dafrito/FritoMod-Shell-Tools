@@ -2,10 +2,14 @@
 PATH=/bin:/usr/bin:$HOME/bin:${0%/*}
 
 function make_title {
-	prefix=${PROJECT+$PROJECT": "}
-	name=$1
-	postfix=${2+ - $2}
-	title=$prefix""$name""$postfix
+	if [ $PROJECT ] && [ $PROJECT = $1 ] && [ ! $2 ]; then
+		title=$PROJECT
+	else
+		prefix=${PROJECT+$PROJECT": "}
+		name=$1
+		postfix=${2+ - $2}
+		title=$prefix""$name""$postfix
+	fi
 }
 
 function make_path {
