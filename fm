@@ -41,6 +41,10 @@ commands = setmetatable({
 			return print("Usage: fm new <name>");
 		end;
 		os.execute("fm-new.sh " .. ProperNounize(name));
+	end,
+	[{"update","u","up"}]=function(name)
+		name=name or "";
+		os.execute("fm-update.sh " .. ProperNounize(name));
 	end
 }, {
 	__index=function(self, key)
