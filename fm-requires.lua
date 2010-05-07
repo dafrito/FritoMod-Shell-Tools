@@ -116,14 +116,30 @@ end;
 externalDependencies[project]=true;
 print("## Dependencies: "..strjoin(", ", unpack(keys(externalDependencies))));
 
+-- candidate is the possible dependency
+function IsDependentOn(root, candidate)
+	print(root,candidate);
+	if contains(dependencies[root], candidate) then
+		return true;
+	end;
+	for i=1, #dependencies[root] do
+		if IsDependentOn(dependencies[root][i], candidate) then
+			return true;
+		end;
+	end;
+	return false;
+end;
+
 local ordered={};
 function Insert(file)
 	for i=1,#ordered do
-		if contains(dependencies[ordered[i]], file) then
+		if IsDependentOn(ordered[i], file) then
+			print("inserting "..file.." before: " ..ordered[i]);
 			table.insert(ordered, i, file);
 			return;
 		end;
 	end;
+	print("inserting "..file.." at end");
 	table.insert(ordered, file);
 end;
 
