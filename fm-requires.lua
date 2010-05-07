@@ -7,16 +7,21 @@ local dependencies={};
 local externalDependencies={};
 
 local current={};
+local CURRENT_ARG="";
 
 local function orig_require(name)
 	if env._context[name] then
 		return;
 	end;
 	env._context[name]=true;
-	local f=assert(loadfile(name));
+	local f, err=loadfile(name);
+	if not f then
+		error(CURRENT_ARG..": "..err);
+	end;
 	setfenv(f,env);
 	f();
 end;
+
 function watching_require(f)
 	if not f:find("%.lua$") then
 		f=f..".lua";
@@ -43,6 +48,7 @@ end;
 require=watching_require;
 
 for i=1, #arg do
+	CURRENT_ARG=arg[i];
 	env=setmetatable({
 		_context={},
 		require=watching_require,
