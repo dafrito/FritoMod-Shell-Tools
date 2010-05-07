@@ -32,8 +32,10 @@ function watching_require(f)
 		f=f..".lua";
 	end;
 	local required_dir=f:match("^(.*)[/\\]");
-	if required_dir ~= dir and required_dir ~= "wowbench" then
-		externalDependencies[required_dir]=true;
+	if required_dir ~= dir then
+		if required_dir ~= "wowbench" then
+			externalDependencies[required_dir]=true;
+		end;
 		orig_require(f);
 		return;
 	end;
@@ -117,7 +119,8 @@ local function contains(t, v)
 	return false;
 end;
 
-print("## Dependencies: "..strjoin(", ", project, unpack(keys(externalDependencies))));
+externalDependencies[project]=true;
+print("## Dependencies: "..strjoin(", ", unpack(keys(externalDependencies))));
 
 local ordered={};
 function Insert(file)
