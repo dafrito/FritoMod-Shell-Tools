@@ -16,3 +16,4 @@ do
 	fi
 	save_toc $comp $aux
 done
+save_toc $PROJECT
