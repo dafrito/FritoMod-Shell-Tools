@@ -15,6 +15,9 @@ local current={};
 local CURRENT_ARG="";
 
 local function orig_require(name)
+	if not name:find("%.lua$") then
+		name=name..".lua";
+	end;
 	if env._context[name] then
 		return;
 	end;
@@ -36,21 +39,12 @@ function watching_require(f)
 		if required_dir ~= "wowbench" then
 			externalDependencies[required_dir]=true;
 		end;
-		orig_require(f);
-		return;
-	end;
-	table.insert(current, f);
-	if dependencies[f] then
-		require=orig_require;
-		orig_require(f);
-		require=watching_require;
 	else
-		local old_current=current;
-		current={};
-		dependencies[f]=current;
-		orig_require(f);
-		current=old_current;
+		table.insert(current, f);
 	end;
+	env.require=orig_require;
+	orig_require(f);
+	env.require=watching_require;
 end;
 require=watching_require;
 
