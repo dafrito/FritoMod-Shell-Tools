@@ -9,15 +9,19 @@ function make_title {
 }
 
 function make_path {
-	prefix=${PROJECT+$PROJECT"_"}
-	name=$1
-	postfix=${2+_$2}
-	path=$prefix""$name""$postfix
+	if [ $PROJECT ] && [ $PROJECT = $1 ] && [ ! $2 ]; then
+		path=$PROJECT
+	else
+		prefix=${PROJECT+$PROJECT"_"}
+		name=$1
+		postfix=${2+_$2}
+		path=$prefix""$name""$postfix
+	fi
 }
 
 function save_toc {
 	make_path $1 $2
-	source fm-toc.sh $1 $2 >$path/$path.toc.new
+	fm-toc.sh $1 $2 >$path/$path.toc.new
 	if [ $? ]; then
 		mv $path/$path.toc.new $path/$path.toc
 	fi

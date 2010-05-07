@@ -1,7 +1,14 @@
-source fm-library.sh >/dev/null
+#!/bin/bash
+PATH=/bin:/usr/bin:$HOME/bin:${0%/*}
+
+source fm-library.sh
 source fm-load-settings.sh >/dev/null
 
-make_path $1 $2
+if [ $PROJECT ] && [ $PROJECT = $1 ] && [ ! $2 ]; then
+	path=$PROJECT
+else
+	make_path $1 $2
+fi
 make_title $1 $2
 
 echo "## Interface: $INTERFACE"
