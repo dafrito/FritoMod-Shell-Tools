@@ -57,8 +57,11 @@ commands = setmetatable({
 				end;
 			end;
 		end;
+		if not key then
+			return self.help
+		end;
 		return function()
-			os.execute("fm-bin.sh " .. key)
+			os.execute("fm-bin.sh "..key.." "..strjoin(" ",unpack(arg)));
 		end;
 	end
 });
