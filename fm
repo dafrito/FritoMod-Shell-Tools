@@ -57,6 +57,11 @@ commands = setmetatable({
 	[{"update","u","up"}]=function(name)
 		name=name or "";
 		os.execute("fm-update.sh " .. ProperNounize(name));
+	end,
+	[{"search","s"}]=function(...)
+		name=name or "";
+		local x=os.execute("fm-search.sh " .. strjoin(" ", ...));
+		os.exit(x);
 	end
 }, {
 	__index=function(self, key)

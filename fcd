@@ -1,0 +1,14 @@
+#!/bin/bash
+if [ $# -eq 0 ]; then
+	pushd . >/dev/null
+	while [ ! -e .current-project ] && [ `pwd` != '/' ]; do
+		cd ..
+	done
+	if [ ! -e .current-project ]; then
+		popd >/dev/null
+	fi
+fi
+newpath=`lua ~/bin/fm/fm s $*`
+if [ 0 == $? ] && [ $newpath ]; then
+	cd $newpath
+fi
