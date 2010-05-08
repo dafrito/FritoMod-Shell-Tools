@@ -10,6 +10,18 @@ function ProperNounize(str)
 	return first..str:sub(2);
 end;
 
+local function strjoin(join, ...)
+	local s="";
+	for i=1,select("#",...) do
+		local v=select(i,...);
+		s=s..v;
+		if i<select("#",...) then
+			s=s..join;
+		end;
+	end;
+	return s;
+end;
+
 local commands;
 commands = setmetatable({
 	init=function(project)
