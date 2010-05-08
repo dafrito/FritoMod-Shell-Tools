@@ -1,5 +1,5 @@
 #!/bin/bash
-PATH=/bin:/usr/bin:$HOME/bin:${0%/*}
+ATH=/bin:/usr/bin:$HOME/bin:${0%/*}
 
 function make_title {
 	if [ $PROJECT ] && [ $PROJECT = $1 ] && [ ! $2 ]; then
@@ -21,6 +21,23 @@ function make_path {
 		postfix=${2+_$2}
 		path=$prefix""$name""$postfix
 	fi
+}
+
+function make_root {
+	pushd . >/dev/null
+	root='./'
+	while [ ! -e .current-project ]; do
+		if [ "`pwd`" == '/' ]; then
+			popd >/dev/null
+			unset root
+			return 1
+		fi;
+		root=$root"../"
+		cd ..
+	done;
+	root=`echo $root | trim -1`
+	popd >/dev/null
+	return 0
 }
 
 function save_toc {
