@@ -101,7 +101,7 @@ local function strjoin(join, ...)
 		local v=select(i,...);
 		s=s..v;
 		if i<select("#",...) then
-			s=s..", ";
+			s=s..join;
 		end;
 	end;
 	return s;
