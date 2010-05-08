@@ -1,5 +1,11 @@
-if [ -e .current-project ]; then
-	PROJECT=`cat .current-project`
+#!/bin/bash
+PATH=/bin:/usr/bin:$HOME/bin:$FM_ROOT:${0%/*}
+
+source fm-library.sh
+
+make_root
+if [ $root ] && [ -d $root ]; then
+	PROJECT=`cat $root/.current-project`
 fi
 
 INTERFACE=${INTERFACE='30300'}
