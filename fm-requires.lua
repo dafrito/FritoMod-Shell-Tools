@@ -38,6 +38,7 @@ function watching_require(f)
 		return;
 	end;
 	local required_dir=f:match("^(.*)[/\\]");
+	assert(required_dir, f);
 	if required_dir ~= dir then
 		if required_dir ~= "wowbench" then
 			externalDependencies[required_dir]=true;
