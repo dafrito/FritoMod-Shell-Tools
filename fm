@@ -65,4 +65,4 @@ commands = setmetatable({
 
 local c=table.remove(arg,1);
 
-return commands[c](unpack(arg));
+commands[c](unpack(arg));
