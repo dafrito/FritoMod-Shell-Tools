@@ -23,6 +23,23 @@ function make_path {
 	fi
 }
 
+function make_name {
+	name=$1
+	if [ -f $1 ]; then
+		name=$1
+	elif [ -f $1.lua ]; then
+		name=$1.lua
+	elif [ -f $1.xml ]; then
+		name=$1.xml
+	elif [ "$FORCE" ]; then
+		if ! `echo $1 | grep -q '\.lua'`; then
+			name=$1.lua
+		fi
+	else
+		error "file not found or is not a file: $1"
+	fi;
+}
+
 function make_root {
 	pushd . >/dev/null
 	root='./'
@@ -38,6 +55,12 @@ function make_root {
 	root=`echo $root | trim -1`
 	popd >/dev/null
 	return 0
+}
+
+function make_path_from_root {
+	l=`readlink -f $root | wc -m`
+	let l++
+	path_from_root=`readlink -f $name | trim $l`
 }
 
 function save_toc {
