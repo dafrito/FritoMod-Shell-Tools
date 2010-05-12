@@ -120,13 +120,20 @@ end;
 externalDependencies[project]=true;
 print("## Dependencies: "..strjoin(", ", unpack(keys(externalDependencies))));
 
--- candidate is the possible dependency
-function IsDependentOn(root, candidate)
-	if contains(dependencies[root], candidate) then
+local parents=dependencies;
+function IsChildOf(child, possibleParent, searched)
+	if not searched then
+		searched={};
+	end;
+	if searched[possibleParent] then
+		return false;
+	end;
+	searched[possibleParent]=true;
+	if contains(parents[child], possibleParent, searched) then
 		return true;
 	end;
-	for i=1, #dependencies[root] do
-		if IsDependentOn(dependencies[root][i], candidate) then
+	for i=1, #parents[child] do
+		if IsChildOf(parents[child][i], possibleParent, searched) then
 			return true;
 		end;
 	end;
@@ -136,7 +143,7 @@ end;
 local ordered={};
 function Insert(file)
 	for i=1,#ordered do
-		if IsDependentOn(ordered[i], file) then
+		if IsChildOf(ordered[i], file) then
 			table.insert(ordered, i, file);
 			return;
 		end;
