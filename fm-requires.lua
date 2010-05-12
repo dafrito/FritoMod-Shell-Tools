@@ -9,6 +9,7 @@ else
 end;
 local env;
 local dependencies={};
+local files={};
 local externalDependencies={};
 
 local current={};
@@ -74,6 +75,7 @@ local function parse(f)
 		end
 	},{ __index=_G});
 	current={};
+	table.insert(files, f);
 	dependencies[f]=current;
 	local f=assert(loadfile(f));
 	setfenv(f, env);
@@ -151,8 +153,8 @@ function Insert(file)
 	table.insert(ordered, file);
 end;
 
-for k,v in pairs(dependencies) do
-	Insert(k);
+for i=1,#files do
+	Insert(files[i]);
 end;
 
 for i=1, #ordered do
