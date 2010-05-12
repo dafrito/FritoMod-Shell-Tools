@@ -25,7 +25,9 @@ function make_path {
 
 function make_name {
 	name=$1
-	if [ -f $1 ]; then
+	if [ ! $1 ]; then
+		error "file must be provided"
+	elif [ -f $1 ]; then
 		name=$1
 	elif [ -f $1.lua ]; then
 		name=$1.lua
