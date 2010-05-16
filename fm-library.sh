@@ -1,5 +1,5 @@
 #!/bin/bash
-ATH=/bin:/usr/bin:$HOME/bin:${0%/*}
+PATH=/bin:/usr/bin:$HOME/bin:${0%/*}
 
 function make_name {
 	name=$1
