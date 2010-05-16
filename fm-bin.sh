@@ -3,7 +3,7 @@ PATH=/bin:/usr/bin:$HOME/bin:${0%/*}
 FM_ROOT=${0%/*}
 
 source fm-library.sh
-source fm-load-settings.sh >/dev/null
+make_root
 
 command="$root/bin/$1"
 
