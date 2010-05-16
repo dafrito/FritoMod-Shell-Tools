@@ -1,82 +1,23 @@
-#!/usr/bin/lua
+#!/bin/bash
+PATH=/bin:/usr/bin:$HOME/bin:${0%/*}
 
-function ProperNounize(str)
-	assert(type(str)=="string", "str must be a string");
-	local first=str:sub(1,1):upper();
-	return first..str:sub(2);
-end;
-
-local function strjoin(join, ...)
-	local s="";
-	for i=1,select("#",...) do
-		local v=select(i,...);
-		s=s..v;
-		if i<select("#",...) then
-			s=s..join;
-		end;
-	end;
-	return s;
-end;
-
-local commands;
-commands = setmetatable({
-	init=function(project)
-		if not project then
-			return print("Usage: fm init <project>");
-		end;
-		return os.execute("fm-init.sh "..ProperNounize(project));
-	end,
-	[{"help","h", "?"}]=function()
-		local cmds={};
-		for k,v in pairs(commands) do
-			if type(k) == "table" then
-				table.insert(cmds, k[1]);
-			else
-				table.insert(cmds, k[1]);
-			end;
-		end;
-		local l="";
-		for i=1,#cmds do
-			l=l..cmds[i];
-			if i<#cmds then
-				l=l.."|";
-			end;
-		end;
-		print(("Usage: [%s] <options>"):format(l));
-	end,
-	[{"update","u","up"}]=function(name)
-		name=name or "";
-		os.execute("fm-update.sh " .. ProperNounize(name));
-	end,
-	[{"search","s"}]=function(...)
-		name=name or "";
-		local x=os.execute("fm-search.sh " .. strjoin(" ", ...));
-		os.exit(x);
-	end,
-	[{"toc"}]=function(...)
-		local x=os.execute("fm-toc.sh " .. strjoin(" ", ...));
-		os.exit(x);
-	end
-}, {
-	__index=function(self, key)
-		for k,v in pairs(self) do
-			if type(k) == "table" then
-				for i=1,#k do
-					if k[i]==key then
-						return self[k];
-					end;
-				end;
-			end;
-		end;
-		if not key then
-			return self.help
-		end;
-		return function()
-			os.execute("fm-bin.sh "..key.." "..strjoin(" ",unpack(arg)));
-		end;
-	end
-});
-
-local c=table.remove(arg,1);
-
-commands[c](unpack(arg));
+case $1 in
+	update|u|up)
+		shift 
+		fm-update.sh $*
+	;;
+	search|s)
+		shift 
+		fm-search.sh $*
+	;;
+	toc)
+		shift 
+		fm-toc.sh $*
+	;;
+	init)
+		shift 
+		fm-init.sh $*
+	;;
+	*)
+		fm-bin.sh $*
+esac
