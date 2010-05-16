@@ -1,10 +1,10 @@
 #!/bin/bash
 if [ $# -eq 0 ]; then
 	pushd . >/dev/null
-	while [ ! -e .current-project ] && [ `pwd` != '/' ]; do
+	while [ ! -e .fm ] && [ `pwd` != '/' ]; do
 		cd ..
 	done
-	if [ ! -e .current-project ]; then
+	if [ ! -e .fm ]; then
 		popd >/dev/null
 	fi
 fi
