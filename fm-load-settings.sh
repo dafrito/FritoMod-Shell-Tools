@@ -12,11 +12,13 @@ function make_project {
 	fi
 	if [ "$path_from_root" ]; then
 		PROJECT=${path_from_root%_*}
-	elif [ 1 = `find $root/.fm/* -maxdepth 0 -type d  | wc -l` ]; then
-		PROJECT=`find $root/.fm/* -maxdepth 0 -type d`
-	elif [ -e $root/.fm/default ]; then
-		PROJECT=`cat $root/.fm/default`
-	fi
+	elif [ "$root" ] && [ -e $root/.fm ]; then
+		if [ 1 = `find $root/.fm/* -maxdepth 0 -type d  | wc -l` ]; then
+			PROJECT=`find $root/.fm/* -maxdepth 0 -type d`
+		elif [ -e $root/.fm/default ]; then
+			PROJECT=`cat $root/.fm/default`
+		fi
+	fi;
 }
 make_project
 
