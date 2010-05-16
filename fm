@@ -6,7 +6,7 @@ case $1 in
 		shift 
 		fm-update.sh $*
 	;;
-	search|s)
+	search)
 		shift 
 		fm-search.sh $*
 	;;
