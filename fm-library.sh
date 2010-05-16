@@ -59,6 +59,13 @@ function make_root {
 	return 0
 }
 
+function make_path_using_pwd {
+	l=`readlink -f $root | wc -m`
+	let l++
+	pwd=`pwd -P`
+	path_from_root=`readlink -f "$pwd" | trim $l`
+}
+
 function make_path_from_root {
 	l=`readlink -f $root | wc -m`
 	let l++
