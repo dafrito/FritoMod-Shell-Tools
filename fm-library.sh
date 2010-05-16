@@ -14,8 +14,6 @@ function make_name {
 		if ! `echo $1 | grep -q '\.lua'`; then
 			name=$1.lua
 		fi
-	else
-		error "file not found or is not a file: $1"
 	fi;
 }
 
