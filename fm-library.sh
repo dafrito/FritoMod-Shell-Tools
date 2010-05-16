@@ -1,28 +1,6 @@
 #!/bin/bash
 ATH=/bin:/usr/bin:$HOME/bin:${0%/*}
 
-function make_title {
-	if [ $PROJECT ] && [ $PROJECT = $1 ] && [ ! $2 ]; then
-		title=$PROJECT
-	else
-		prefix=${PROJECT+$PROJECT": "}
-		name=$1
-		postfix=${2+ - $2}
-		title=$prefix""$name""$postfix
-	fi
-}
-
-function make_path {
-	if [ $PROJECT ] && [ $PROJECT = $1 ] && [ ! $2 ]; then
-		path=$PROJECT
-	else
-		prefix=${PROJECT+$PROJECT"_"}
-		name=$1
-		postfix=${2+_$2}
-		path=$prefix""$name""$postfix
-	fi
-}
-
 function make_name {
 	name=$1
 	if [ ! $1 ]; then
@@ -76,13 +54,13 @@ function make_path_from_root {
 }
 
 function save_toc {
-	make_path $1 $2
-	if [ -e $path/.no-toc ]; then
+	if [ -e $1/.no-toc ]; then
 		return
 	fi
-	fm-toc.sh $1 $2 >$path/$path.toc.new
+	tocpath=$1/${1##*/}.toc
+	fm-toc.sh $1 >$tocpath.new
 	if [ $? ]; then
-		mv $path/$path.toc.new $path/$path.toc
+		mv $tocpath.new $tocpath
 	fi
 }
 

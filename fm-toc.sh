@@ -2,17 +2,24 @@
 PATH=/bin:/usr/bin:$HOME/bin:${0%/*}
 
 source fm-library.sh
+
+if [ -e $1 ]; then
+	path=$1
+else
+	path=`fm-search.sh $1`
+	if [ ! $? ]; then
+		exit 1;
+	fi
+fi
+PROJECT=${path%%_*}
 source fm-load-settings.sh >/dev/null
 
-if [ $PROJECT ] && [ $PROJECT = $1 ] && [ ! $2 ]; then
-	path=$PROJECT
-else
-	make_path $1 $2
-fi
-make_title $1 $2
-
 echo "## Interface: $INTERFACE"
-echo "## Title: $title"
+if echo $path | grep "_" -q; then
+	echo "## Title: $PROJECT: `echo ${path#*_} | sed 's/_/ /g'`"
+else
+	echo "## Title: $path"
+fi;
 echo "## Author: $AUTHOR"
 echo "## Version: $VERSION"
 
