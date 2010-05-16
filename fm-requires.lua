@@ -31,6 +31,11 @@ local function orig_require(name)
 	f();
 end;
 
+local ignoredDeps={
+	wowbench=true,
+	WoW=true
+};
+
 function watching_require(f)
 	if not f:find("%.lua$") then
 		f=f..".lua";
@@ -41,7 +46,7 @@ function watching_require(f)
 	local required_dir=f:match("^([^/\\]*)[/\\]");
 	assert(required_dir, f);
 	if required_dir ~= dir then
-		if required_dir ~= "wowbench" then
+		if not ignoredDeps[required_dir] then
 			externalDependencies[required_dir]=true;
 		end;
 	else
