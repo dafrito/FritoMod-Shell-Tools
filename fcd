@@ -8,7 +8,7 @@ if [ $# -eq 0 ]; then
 		popd >/dev/null
 	fi
 fi
-newpath=`lua ~/bin/fm/fm s $*`
+newpath=`lua ${0%/*}/fm-search.sh $*`
 if [ 0 == $? ] && [ $newpath ]; then
 	cd $newpath
 fi
