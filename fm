@@ -44,12 +44,6 @@ commands = setmetatable({
 		end;
 		print(("Usage: [%s] <options>"):format(l));
 	end,
-	[{"new","n","create","c"}]=function(name)
-		if not name then
-			return print("Usage: fm new <name>");
-		end;
-		os.execute("fm-new.sh " .. ProperNounize(name));
-	end,
 	[{"update","u","up"}]=function(name)
 		name=name or "";
 		os.execute("fm-update.sh " .. ProperNounize(name));
