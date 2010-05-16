@@ -1,9 +1,5 @@
 #!/usr/bin/lua
 
-if 0 == os.execute("test -e .fm") then
-	dofile(".fm");
-end;
-
 function ProperNounize(str)
 	assert(type(str)=="string", "str must be a string");
 	local first=str:sub(1,1):upper();
