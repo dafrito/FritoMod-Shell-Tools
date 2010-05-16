@@ -93,6 +93,13 @@ function search {
 
 n=`search $* | wc -l`
 if [ 1 -lt $n ]; then
+	if [ "$PROJECT" ]; then
+		n=`search $* | grep "$PROJECT" | wc -l`
+		if [ 1 -eq $n ]; then
+			echo "$root/`search $* | grep $PROJECT`"
+			exit 0
+		fi
+	fi
 	echo "fm: multiple matches found" 1>&2
 	search $* 1>&2
 	exit 1
