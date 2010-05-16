@@ -1,5 +1,4 @@
-PROJECT=$1
+#!/bin/bash
 
-echo $PROJECT >.current-project
-mkdir -p $PROJECT/bin
-source fm-load-settings.sh >$PROJECT/settings
+mkdir -p .fm/$1
+source fm-load-settings.sh >.fm/$1/settings
