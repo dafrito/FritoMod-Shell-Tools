@@ -2,7 +2,7 @@
 PATH=/bin:/usr/bin:$HOME/bin:$FM_ROOT:${0%/*}
 source fm-load-settings.sh >/dev/null
 
-[ $PROJECT ] || error "no project found";
+[ $PROJECT ] || error "fm: no project found, or project was ambiguous";
 
 dir=`pwd -P`
 make_root
