@@ -56,7 +56,7 @@ require=watching_require;
 local global=loadfile(project.."/global.lua");
 
 local excludes={};
-local exf=io.open(project.."/excludes");
+local exf=io.open(dir.."/.exclude");
 if exf then
 	for f in exf:lines() do
 		excludes[project.."/"..f]=true;
