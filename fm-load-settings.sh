@@ -10,7 +10,7 @@ if [ "$1" ]; then
 	PROJECT=$1
 elif [ "$path_from_root" ]; then
 	PROJECT=${path_from_root%_*}
-elif [ 1 = `find $root/.fm/* -maxdepth 0 -type d  wc -l` ]; then
+elif [ 1 = `find $root/.fm/* -maxdepth 0 -type d  | wc -l` ]; then
 	PROJECT=`find $root/.fm/* -maxdepth 0 -type d`
 elif [ -e $root/.fm/default ]; then
 	PROJECT=`cat $root/.fm/default`
