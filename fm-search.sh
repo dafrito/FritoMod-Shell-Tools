@@ -23,16 +23,36 @@ function get_candidates {
 	done
 }
 
-case $1 in
-	-t)
-		TESTS=true
-		shift
-	;;
-	-l)
-		get_candidates 1>&2
-		exit 1
-	;;
-esac;
+
+while [ -n "$1" ]; do
+	case "$1" in
+		-r) RAW=true ;;
+		-t) TESTS=true ;;
+		-l) LIST=true ;;
+		*)
+			break
+		;;
+	esac;
+	shift
+done
+
+function list {
+	IFS='
+'
+	for c in `get_candidates`; do
+		if [ "$RAW" ]; then
+			 echo $c
+		else
+			echo $c | sed "s/	/_/g"
+		fi;
+	done
+	exit 1
+}
+
+if [ $LIST ]; then
+	list
+	exit
+fi
 
 if [ ! $1 ]; then
 	if [ $TESTS ]; then
