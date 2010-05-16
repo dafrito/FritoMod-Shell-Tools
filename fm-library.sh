@@ -67,6 +67,9 @@ function make_path_from_root {
 
 function save_toc {
 	make_path $1 $2
+	if [ -e $path/.no-toc ]; then
+		return
+	fi
 	fm-toc.sh $1 $2 >$path/$path.toc.new
 	if [ $? ]; then
 		mv $path/$path.toc.new $path/$path.toc
