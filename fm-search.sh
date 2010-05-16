@@ -1,12 +1,6 @@
 #!/bin/bash
 PATH=/bin:/usr/bin:$HOME/bin:$FM_ROOT:${0%/*}
-
-if [ $# -gt 1 ]; then
-	PROJECT=$1 source fm-load-settings.sh >/dev/null
-	shift
-else
-	PROJECT=$1 source fm-load-settings.sh >/dev/null
-fi
+source fm-load-settings.sh >/dev/null
 
 dir=`pwd -P`
 make_root
