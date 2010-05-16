@@ -1,22 +1,32 @@
 #!/bin/bash
 PATH=/bin:/usr/bin:$HOME/bin:$FM_ROOT:${0%/*}
-source fm-load-settings.sh >/dev/null
 
-[ $PROJECT ] || error "fm: no project found, or project was ambiguous";
+if [ $# -gt 1 ]; then
+	PROJECT=$1 source fm-load-settings.sh >/dev/null
+	shift
+else
+	PROJECT=$1 source fm-load-settings.sh >/dev/null
+fi
 
 dir=`pwd -P`
 make_root
+if [ ! $root ]; then
+	error "not a project"
+fi
 cd $root
 
 function get_candidates {
-	let l=`echo $PROJECT | wc -m`+1
-	for i in `find $PROJECT* -maxdepth 0 -type d | trim $l`; do
-		if [ $TESTS ] && `echo $i | grep -q _Tests`; then
-			echo $i
-		elif [ ! $TESTS ] && `echo $i | grep -q -v _Tests`; then
-			echo $i
-		fi 
-	done;
+	for project in `find .fm/* -maxdepth 0 -type d`; do
+		project=${project#*/}
+		let l=`echo $project | wc -m`+1
+		for i in `find $project* -maxdepth 0 -type d | trim $l`; do
+			if [ $TESTS ] && `echo $i | grep -q _Tests`; then
+				echo "$project	$i"
+			elif [ ! $TESTS ] && `echo $i | grep -q -v _Tests`; then
+				echo "$project	$i"
+			fi 
+		done;
+	done
 }
 
 case $1 in
@@ -58,7 +68,13 @@ if [ ! $1 ]; then
 fi
 
 function search {
-	get_candidates | grep -i $1
+	IFS='
+'
+	for c in `get_candidates`; do
+		if echo $c | cut -f2 | grep -qi $1; then
+			echo $c | sed 's/	/_/g'
+		fi
+	done
 }
 
 n=`search $* | wc -l`
@@ -70,5 +86,5 @@ elif [ 0 -eq $n ]; then
 	error "fm: no matches found"
 	exit 1
 fi
-echo $root"/"$PROJECT"_"`search $*`
+echo "$root/`search $*`"
 exit 0
