@@ -45,7 +45,7 @@ function make_name {
 function make_root {
 	pushd . >/dev/null
 	root='./'
-	while [ ! -e .current-project ]; do
+	while [ ! -e .fm ]; do
 		if [ "`pwd`" == '/' ]; then
 			popd >/dev/null
 			unset root
