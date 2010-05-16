@@ -33,8 +33,3 @@ fi
 if [ -e $root/.fm/$PROJECT/settings ]; then
 	source $root/.fm/$PROJECT/settings
 fi
-
-echo "INTERFACE='$INTERFACE'"
-echo "PROJECT='$PROJECT'"
-echo "AUTHOR='$AUTHOR'"
-echo "VERSION='$VERSION'"
