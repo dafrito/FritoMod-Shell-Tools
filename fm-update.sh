@@ -4,8 +4,7 @@ source fm-library.sh
 source fm-load-settings.sh >/dev/null
 make_root
 
-pushd $root >/dev/null
-trap 'popd >/dev/null' INT EXIT TERM
+cd $root
 
 if [ $1 ]; then
 	save_toc $1 $2
