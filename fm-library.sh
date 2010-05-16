@@ -54,6 +54,9 @@ function save_toc {
 	if [ -e $1/.no-toc ]; then
 		return
 	fi
+	if [ -e .fm/${1%%_*}/no-toc ]; then
+		return
+	fi
 	tocpath=$1/${1##*/}.toc
 	fm-toc.sh $1 >$tocpath.new
 	if [ $? ]; then
