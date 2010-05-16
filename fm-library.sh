@@ -60,6 +60,9 @@ function make_root {
 }
 
 function make_path_using_pwd {
+	if [ ! "$root" ]; then
+		return
+	fi
 	l=`readlink -f $root | wc -m`
 	let l++
 	pwd=`pwd -P`
