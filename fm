@@ -58,6 +58,10 @@ commands = setmetatable({
 		name=name or "";
 		local x=os.execute("fm-search.sh " .. strjoin(" ", ...));
 		os.exit(x);
+	end,
+	[{"toc"}]=function(...)
+		local x=os.execute("fm-toc.sh " .. strjoin(" ", ...));
+		os.exit(x);
 	end
 }, {
 	__index=function(self, key)
