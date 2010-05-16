@@ -26,9 +26,11 @@ INTERFACE=${INTERFACE='30300'}
 AUTHOR=${AUTHOR-$USER}
 VERSION=${VERSION-"Unreleased"}
 
+if [ -e $root/.fm/settings ]; then
+	source $root/.fm/settings
+fi
 if [ -e $root/.fm/$PROJECT/settings ]; then
-	SETTINGS=$root/.fm/$PROJECT/settings
-	source $SETTINGS
+	source $root/.fm/$PROJECT/settings
 fi
 
 echo "INTERFACE='$INTERFACE'"
