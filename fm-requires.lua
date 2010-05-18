@@ -15,7 +15,16 @@ local externalDependencies={};
 local current={};
 local CURRENT_ARG="";
 
+local libs={
+	bit=true
+};
+
+ORIG_REQUIRE=require;
+
 local function orig_require(name)
+	if libs[name] then
+		return ORIG_REQUIRE(name);
+	end;
 	if not name:find("%.lua$") then
 		name=name..".lua";
 	end;
@@ -37,6 +46,9 @@ local ignoredDeps={
 };
 
 function watching_require(f)
+	if libs[f] then
+		return ORIG_REQUIRE(f);
+	end;
 	if not f:find("%.lua$") then
 		f=f..".lua";
 	end;
