@@ -137,7 +137,9 @@ local function contains(t, v)
 end;
 
 externalDependencies[project]=true;
-print("## Dependencies: "..strjoin(", ", unpack(keys(externalDependencies))));
+local eDeps=keys(externalDependencies);
+table.sort(eDeps);
+print("## Dependencies: "..strjoin(", ", unpack(eDeps)));
 
 local parents=dependencies;
 function IsChildOf(child, possibleParent, searched)
