@@ -58,7 +58,7 @@ function watching_require(f)
 	local required_dir=f:match("^([^/\\]*)[/\\]");
 	assert(required_dir, f);
 	if required_dir ~= dir then
-		if not ignoredDeps[required_dir] then
+		if (required_dir:find("_") and not ignoredDeps[required_dir:sub(1, required_dir:find("_")-1)]) and not ignoredDeps[required_dir] then
 			externalDependencies[required_dir]=true;
 		end;
 	else
