@@ -34,20 +34,16 @@ function make_root {
 	return 0
 }
 
-function make_path_using_pwd {
+function make_path_from_root {
 	if [ ! "$root" ]; then
 		return
 	fi
-	l=`readlink -f $root | wc -m`
-	let l++
-	pwd=`pwd -P`
-	path_from_root=`readlink -f "$pwd" | trim $l`
-}
-
-function make_path_from_root {
-	l=`readlink -f $root | wc -m`
-	let l++
-	path_from_root=`readlink -f $name | trim $l`
+	len=`readlink -f $root | wc -m`
+	let len++
+	path_from_root=`readlink -f $1 | trim $len`
+	if [ ! "$path_from_root" ]; then
+		path_from_root="."
+	fi
 }
 
 function save_toc {

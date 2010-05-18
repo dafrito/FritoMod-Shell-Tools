@@ -4,7 +4,7 @@ PATH=/bin:/usr/bin:$HOME/bin:$FM_ROOT:${0%/*}
 source fm-library.sh
 
 make_root
-make_path_using_pwd
+make_path_from_root `pwd -P`
 
 function make_project {
 	if [ $PROJECT ]; then
