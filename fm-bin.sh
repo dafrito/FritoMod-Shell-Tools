@@ -1,6 +1,9 @@
 #!/bin/bash
-PATH=/bin:/usr/bin:$HOME/bin:${0%/*}
-FM_ROOT=${0%/*}
+if [ ! "$FM_ROOT" ]; then
+	echo "FM_ROOT must be defined" 1>&2
+	exit 1
+fi
+PATH=/bin:/usr/bin:$HOME/bin:$FM_ROOT
 
 source fm-library.sh
 make_root

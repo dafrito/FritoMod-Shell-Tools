@@ -1,23 +1,27 @@
 #!/bin/bash
-PATH=/bin:/usr/bin:$HOME/bin:${0%/*}
+if [ ! "$FM_ROOT" ]; then
+	echo "FM_ROOT must be defined" 1>&2
+	exit 1
+fi
+PATH=/bin:/usr/bin:$HOME/bin:$FM_ROOT
 
 case $1 in
 	update|u|up)
 		shift 
-		fm-update.sh $*
+		source fm-update.sh $*
 	;;
 	search)
 		shift 
-		fm-search.sh $*
+		source fm-search.sh $*
 	;;
 	toc)
 		shift 
-		fm-toc.sh $*
+		source fm-toc.sh $*
 	;;
 	init)
 		shift 
-		fm-init.sh $*
+		source fm-init.sh $*
 	;;
 	*)
-		fm-bin.sh $*
+		source fm-bin.sh $*
 esac

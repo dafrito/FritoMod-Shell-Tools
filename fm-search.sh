@@ -1,5 +1,9 @@
 #!/bin/bash
-PATH=/bin:/usr/bin:$HOME/bin:$FM_ROOT:${0%/*}
+if [ ! "$FM_ROOT" ]; then
+	echo "FM_ROOT must be defined" 1>&2
+	exit 1
+fi
+PATH=/bin:/usr/bin:$HOME/bin:$FM_ROOT
 source fm-load-settings.sh >/dev/null
 
 dir=`pwd -P`
