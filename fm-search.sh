@@ -61,7 +61,6 @@ fi
 if [ ! $1 ]; then
 	if [ $TESTS ]; then
 		l=`readlink -f . | wc -m`
-		let l++
 		path=`readlink -f "$dir" | trim $l`
 		if `echo $path | grep -q '/'`; then
 			comp=${path%%/*}
