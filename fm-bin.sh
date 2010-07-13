@@ -8,6 +8,7 @@ PATH=/bin:/usr/bin:$HOME/bin:$FM_ROOT
 source fm-library.sh
 make_root
 
+[ $1 ] || error "No command given"
 command="$root/bin/$1"
 
 shift
