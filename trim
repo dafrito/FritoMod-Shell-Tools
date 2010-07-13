@@ -1,0 +1,13 @@
+#!/bin/bash
+# Snips a string from both ends
+PATH=/bin:/usr/bin
+
+start=${1?'usage: trim <start> <end> ...'}
+shift
+end=${1-0}
+shift
+if [ $start -lt 0 ]; then
+	let end="$start * -1"
+	let start=0
+fi
+awk '{ print substr($0, start+1, length()-start-end) }' start=$start end=$end $*
