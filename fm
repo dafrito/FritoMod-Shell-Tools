@@ -4,6 +4,7 @@ if [ ! "$FM_ROOT" ]; then
 	exit 1
 fi
 PATH=/bin:/usr/bin:$HOME/bin:$FM_ROOT
+export FM_ROOT
 
 case $1 in
 	update|u|up)
