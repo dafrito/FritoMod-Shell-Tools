@@ -16,7 +16,7 @@ cd $root
 function get_candidates {
 	for project in `find .fm/* -maxdepth 0 -type d`; do
 		project=${project#*/}
-		let l=`echo $project | wc -m`+1
+		let l=`echo $project | wc -m`
 		for i in `find $project* -maxdepth 0 -type d | trim $l`; do
 			if [ $TESTS ] && `echo $i | grep -q _Tests`; then
 				echo "$project	$i"
