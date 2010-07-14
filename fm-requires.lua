@@ -140,6 +140,7 @@ function Insert(f)
 		return
 	end;
 	ordered[f] = true
+	table.sort(parents[f])
 	for i=1, #parents[f] do
 		Insert(parents[f][i])
 	end
