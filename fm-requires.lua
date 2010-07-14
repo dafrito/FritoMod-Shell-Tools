@@ -127,49 +127,23 @@ local function strjoin(join, ...)
 	return s;
 end;
 
-local function contains(t, v)
-	for i=1, #t do
-		if t[i]==v then
-			return true;
-		end;
-	end;
-	return false;
-end;
-
 externalDependencies[project]=true;
 local eDeps=keys(externalDependencies);
 table.sort(eDeps);
 print("## Dependencies: "..strjoin(", ", unpack(eDeps)));
 
 local parents=dependencies;
-function IsChildOf(child, possibleParent, searched)
-	if not searched then
-		searched={};
-	end;
-	if searched[possibleParent] then
-		return false;
-	end;
-	searched[possibleParent]=true;
-	if contains(parents[child], possibleParent, searched) then
-		return true;
-	end;
-	for i=1, #parents[child] do
-		if IsChildOf(parents[child][i], possibleParent, searched) then
-			return true;
-		end;
-	end;
-	return false;
-end;
 
 local ordered={};
-function Insert(file)
-	for i=1,#ordered do
-		if IsChildOf(ordered[i], file) then
-			table.insert(ordered, i, file);
-			return;
-		end;
+function Insert(f)
+	if ordered[f] then
+		return
 	end;
-	table.insert(ordered, file);
+	ordered[f] = true
+	for i=1, #parents[f] do
+		Insert(parents[f][i])
+	end
+	table.insert(ordered, f)
 end;
 
 for i=1,#files do
