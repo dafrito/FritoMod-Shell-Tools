@@ -39,7 +39,6 @@ function make_path_from_root {
 		return
 	fi
 	len=`readlink -f $root | wc -m`
-	let len++
 	path_from_root=`readlink -f $1 | trim $len`
 	if [ ! "$path_from_root" ]; then
 		path_from_root="."
