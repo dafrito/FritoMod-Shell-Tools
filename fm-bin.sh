@@ -9,7 +9,7 @@ source fm-library.sh
 make_root
 
 [ $1 ] || error "No command given"
-command="$root/bin/$1"
+command="$root/commands/$1"
 
 shift
 if [ -e $command ]; then
@@ -18,7 +18,7 @@ elif [ -e $command.sh ]; then
 	FM_ROOT=$FM_ROOT bash $command.sh $*
 elif [ -e $command.lua ]; then
 	pushd $root >/dev/null
-	lua bin/$command.lua $*
+	lua commands/$command.lua $*
 	popd >/dev/null
 else
 	echo "Command not found: $command" 1>&2
