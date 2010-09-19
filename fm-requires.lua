@@ -142,6 +142,7 @@ function Insert(f)
 	ordered[f] = true
 	table.sort(parents[f])
 	for i=1, #parents[f] do
+        --print(("%s depends on %s"):format(f, parents[f][i]));
 		Insert(parents[f][i])
 	end
 	table.insert(ordered, f)
