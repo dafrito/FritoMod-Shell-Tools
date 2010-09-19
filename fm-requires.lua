@@ -148,6 +148,7 @@ function Insert(f)
 	table.insert(ordered, f)
 end;
 
+table.sort(files);
 for i=1,#files do
 	Insert(files[i]);
 end;
