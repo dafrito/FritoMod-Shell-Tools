@@ -18,6 +18,10 @@ case $1 in
 		shift 
 		source fm-toc.sh $*
 	;;
+	xml)
+		shift 
+		source fm-xml.sh $*
+	;;
 	init)
 		shift 
 		source fm-init.sh $*
